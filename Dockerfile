@@ -1,10 +1,11 @@
-FROM maven:3.8.3-openjdk-17 AS build
+# 🌟 استخدم Java 17 أو اللي مشروعك بيشتغل عليه
+FROM eclipse-temurin:17-jdk-alpine
 
-COPY . .
-RUN mvn clean insatll 
+# اسم العمل داخل الكونتينر
+WORKDIR /app
 
-FROM eclipse-eclipse-temurin:17-jdk
-COPY --from=build /target/wrok-session-0.0.1-SNAPSHOT.jar demo.jar
+# انسخ ملف JAR من بيئة البناء
+COPY target/*.jar app.jar
 
-EXPOSE 8080
-ENTRYPOINT [ "java","-jar" ,"demo.jar"]
+# شغّل التطبيق
+ENTRYPOINT ["java", "-jar", "app.jar"]
